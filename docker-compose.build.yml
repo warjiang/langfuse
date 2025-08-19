@@ -5,6 +5,7 @@ services:
       context: .
       args:
         - NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=${NEXT_PUBLIC_LANGFUSE_CLOUD_REGION}
+        - REGISTRY=${REGISTRY:-docker.io}
     depends_on: &langfuse-depends-on
       postgres:
         condition: service_healthy
@@ -66,6 +67,7 @@ services:
       context: .
       args:
         - NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=${NEXT_PUBLIC_LANGFUSE_CLOUD_REGION}
+        - REGISTRY=${REGISTRY:-docker.io}
     depends_on: *langfuse-depends-on
     ports:
       - "3030:3030"
