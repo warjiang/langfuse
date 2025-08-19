@@ -10,7 +10,7 @@ env:
   NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
 jobs:
-  build-lint:
+  build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
