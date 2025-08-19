@@ -1,5 +1,6 @@
 services:
   langfuse-web:
+    image: ${REGISTRY:-docker.io}/warjiang/langfuse:3
     build:
       dockerfile: ./web/Dockerfile
       context: .
@@ -66,6 +67,7 @@ services:
       retries: 3
 
   langfuse-worker:
+    image: ${REGISTRY:-docker.io}/warjiang/langfuse-worker:3
     build:
       dockerfile: ./worker/Dockerfile
       context: .
