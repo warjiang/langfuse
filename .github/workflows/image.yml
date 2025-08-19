@@ -4,8 +4,8 @@ on:
   push:
     branches: ["feat/deploy-with-private-registry"]
 env:
-  IMAGE_REGISTRY: "ghcr.io"
-  LANGFUSE_WEB_IMAGE_NAME: ${{ github.repository }}-web
+  REGISTRY: "ghcr.io"
+  LANGFUSE_WEB_IMAGE_NAME: ${{ github.repository }}
   LANGFUSE_WORKER_IMAGE_NAME: ${{ github.repository }}-worker
   NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
@@ -19,10 +19,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v5
 
-      - name: Log into registry ${{ env.IMAGE_REGISTRY }}
+      - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.IMAGE_REGISTRY }}
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
@@ -31,3 +31,7 @@ jobs:
 
       - name: Check images
         run: docker images
+      - name: Push images
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.LANGFUSE_WEB_IMAGE_NAME }}
+          docker push ${{ env.REGISTRY }}/${{ env.LANGFUSE_WORKER_IMAGE_NAME }}
