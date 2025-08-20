@@ -9,6 +9,7 @@ env:
   LANGFUSE_WORKER_IMAGE_NAME: ${{ github.repository }}-worker
   NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+  TAG: 3.0.1
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -26,15 +27,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Start containers
-        run: docker compose -f "docker-compose.build.yml" build
+      - name: Start and build image
+        run: |
+          echo "check env"
+          env
+          echo "check env finished"
+          docker compose -f "docker-compose.build.yml" build
 
       - name: Check images
         run: docker images
       - name: Push images
         run: |
-          docker tag ${{ env.LANGFUSE_WEB_IMAGE_NAME }}:3 ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WEB_IMAGE_NAME }}:3
-          docker push ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WEB_IMAGE_NAME }}:3
+          docker tag ${{ env.LANGFUSE_WEB_IMAGE_NAME }}:${{ env.TAG }} ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WEB_IMAGE_NAME }}:${{ env.TAG }}
+          docker push ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WEB_IMAGE_NAME }}:${{ env.TAG }}
 
-          docker tag ${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:3 ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:3
-          docker push ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:3
+          docker tag ${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:${{ env.TAG }} ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:${{ env.TAG }}
+          docker push ${{ env.IMAGE_REGISTRY }}/${{ env.LANGFUSE_WORKER_IMAGE_NAME }}:${{ env.TAG }}
