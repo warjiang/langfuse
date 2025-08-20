@@ -8,9 +8,9 @@ services:
         - NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=${NEXT_PUBLIC_LANGFUSE_CLOUD_REGION}
         - REGISTRY=${REGISTRY:-docker.io}
         # "/langfuse-base-path"
-        # - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-/}
+        - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-/}
         # - NEXTAUTH_URL="https://yourdomain.com/langfuse-base-path/api/auth"
-        # - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+        - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
     depends_on: &langfuse-depends-on
       postgres:
         condition: service_healthy
@@ -74,8 +74,8 @@ services:
       args:
         - NEXT_PUBLIC_LANGFUSE_CLOUD_REGION=${NEXT_PUBLIC_LANGFUSE_CLOUD_REGION}
         - REGISTRY=${REGISTRY:-docker.io}
-        # - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-/}
-        # - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+        - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-/}
+        - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
     depends_on: *langfuse-depends-on
     ports:
       - "3030:3030"
